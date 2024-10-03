@@ -56,11 +56,14 @@ func main() {
 	cache := Constructor(1000)
 
 	cache.Set(0, "test")
+	cache.Set(1, "test")
+	cache.Set(2, "test")
+	cache.Set(3, "test")
+	cache.Set(4, "test")
+
 	fmt.Println(cache)
 
-	cache.Set(1, "test2")
-
-	v, exists := cache.Get(1)
+	v, exists := cache.Get(0)
 	if exists {
 		fmt.Println(v)
 	} else {
