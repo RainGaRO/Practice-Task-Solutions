@@ -102,3 +102,39 @@ func TestUnion(t *testing.T) {
 		t.Errorf("Неправильный результат")
 	}
 }
+func TestDifference(t *testing.T) {
+	// Тест 1: Нахождение разности двух непустых наборов
+	s1 := &Set{[]interface{}{1, 2, 3}}
+	s2 := &Set{[]interface{}{4, 5, 6}}
+	difference := s1.Difference(s2)
+	expected := []interface{}{1, 2}
+	if reflect.DeepEqual(difference.Collection, expected) == false {
+		t.Errorf("Неправильный результат")
+	}
+	// Тест 2: Нахождение разности пустого набора и непустого набора
+	s1 = &Set{}
+	s2 = &Set{[]interface{}{4, 5, 6}}
+	difference = s1.Difference(s2)
+	expected = []interface{}{4, 5, 6}
+	if reflect.DeepEqual(difference.Collection, expected) == false {
+		t.Errorf("Неправильный результат")
+	}
+
+	// Тест 3: Проверка правильности нахождения разности элементов из двух коллекций
+	s1 = &Set{[]interface{}{1, 2, 3}}
+	s2 = &Set{[]interface{}{3, 4, 5}}
+	difference = s1.Difference(s2)
+	i := 0
+	for _, v := range difference.Collection {
+		if i == 0 {
+			if v != s1.Collection[i] {
+				t.Errorf("Значение в коллекции не соответствует ожидаемому")
+			}
+		} else if i == 1 {
+			if !reflect.DeepEqual(v, s2.Collection[i-1]) {
+				t.Errorf("Значение в коллекции не соответствует ожидаемому")
+			}
+		}
+		i++
+	}
+}
