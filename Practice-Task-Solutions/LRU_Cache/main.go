@@ -3,6 +3,7 @@ package main
 import (
 	"container/list"
 	"fmt"
+	"sync"
 )
 
 // Хранение ключа и кэшируемого элемента
@@ -16,6 +17,7 @@ type LRUCache struct {
 	capacity int
 	items    map[int]*list.Element
 	queue    *list.List
+	mt         sync.RWMutex
 }
 
 func Constructor(capacity int) LRUCache {
@@ -27,6 +29,8 @@ func Constructor(capacity int) LRUCache {
 }
 
 func (c *LRUCache) Get(key int) (string, bool) {
+	c.mt.RLock()
+	defer c.mt.RUnlock() 
 	if n, ok := c.items[key]; ok {
 		c.queue.MoveToFront(n)
 		return n.Value.(KeyValue).Value, true
@@ -35,8 +39,10 @@ func (c *LRUCache) Get(key int) (string, bool) {
 }
 
 func (c *LRUCache) Set(key int, value string) {
+	c.mt.Lock()
+	defer c.mt.Unlock() 
+	
 	kv := KeyValue{key, value}
-
 	if n, ok := c.items[key]; ok {
 		n.Value = kv
 		c.queue.MoveToFront(n)
