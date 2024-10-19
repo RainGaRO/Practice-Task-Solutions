@@ -1,5 +1,17 @@
 package queue
 
+// func UseQueue() {
+// 	queue := &Queue{}
+// 	queue.Enqueue(1)
+// 	queue.Enqueue(2)
+// 	queue.Enqueue(3)
+
+// 	fmt.Println(queue.Collections())
+// 	queue.Dequeue()
+// 	fmt.Println(queue.Peek())
+// 	fmt.Println(queue.Collections())
+// }
+
 type Queue struct {
 	Collection []interface{}
 }
