@@ -33,3 +33,72 @@ func TestAddInt(t *testing.T) {
 		t.Error("Элемент не был добавлен в структуру")
 	}
 }
+
+
+func TestRemove(t *testing.T) {
+	// Тест 1: Удаление существующего элемента
+	s := &Set{[]interface{}{1, 2, 3}}
+	if !s.Remove(2) {
+		t.Errorf("Элемент не был удалён")
+	}
+	expected := []interface{}{1, 3}
+	if reflect.DeepEqual(s.Collection, expected) == false { //len(s.Collection) != len(expected)
+		t.Errorf("Неправильный результат")
+	}
+
+	// Тест 2: Удаление несуществующего элемента
+	s = &Set{[]interface{}{1, 2, 3}}
+	if s.Remove(4) {
+		t.Error("Элемент должен быть удалён")
+	}
+	// Тест 3: Проверка правильности удаления элемента из коллекции
+	s = &Set{[]interface{}{1, 2, 3}}
+	if s.Remove(2) {
+		expected := []interface{}{1, 3}
+		if len(s.Collection) != len(expected) {
+			t.Errorf("Неправильный размер коллекции после удаления")
+		} else {
+			i := 0
+			for _, v := range s.Collection {
+				if i == 1 {
+					if v != expected[i] {
+						t.Errorf("Значение в коллекции не соответствует ожидаемому")
+					}
+				}
+				i++
+			}
+		}
+	}
+}
+
+func TestUnion(t *testing.T) {
+	// Тест 1: Объединение двух непустых наборов
+	s1 := &Set{[]interface{}{1, 2, 3}}
+	s2 := &Set{[]interface{}{4, 5, 6}}
+	union := s1.Union(s2)
+	expected := []interface{}{1, 2, 3, 4, 5, 6}
+	if reflect.DeepEqual(union.Collection, expected) == false {
+		t.Errorf("Неправильный результат")
+	}
+	// Тест 2: Объединение пустого набора с непустым набором
+	s1 = &Set{}
+	s2 = &Set{[]interface{}{4, 5, 6}}
+	union = s1.Union(s2)
+	expected = []interface{}{4, 5, 6}
+	if reflect.DeepEqual(union.Collection, expected) == false {
+		t.Errorf("Неправильный результат")
+	}
+
+	// Тест 3: Проверка правильности объединения элементов из двух коллекций
+	s1 = &Set{[]interface{}{1, 2, 3}}
+	s2 = &Set{[]interface{}{3, 4, 5}}
+
+	// Объединение коллекций
+	union = s1.Union(s2)
+
+	// Сравнение результатов
+	expected = []interface{}{1, 2, 3, 3, 4, 5}
+	if !reflect.DeepEqual(union.Collection, expected) {
+		t.Errorf("Неправильный результат")
+	}
+}
