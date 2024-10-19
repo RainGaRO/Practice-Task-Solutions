@@ -1,5 +1,21 @@
 package stack
 
+// func UseStack() {
+// 	stack := NewStack()
+// 	stack.Push(1)
+// 	stack.Push(2)
+
+// 	fmt.Println(stack.Peek())
+// 	fmt.Println(stack.Pop())
+// 	fmt.Println(stack.Peek())
+
+// 	stack.Push("String")
+// 	fmt.Println(stack.Size())
+// 	fmt.Println(stack.Peek())
+// 	fmt.Println(stack.Pop())
+// 	fmt.Println(stack.Peek())
+// }
+
 type Stack struct {
 	Data []interface{}
 }
